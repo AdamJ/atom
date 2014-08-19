@@ -1,4 +1,4 @@
-*Adam's ATOM Configuration
+* Adam's ATOM Configuration
 ====
 
 This is my custom configuration for the ATOM editor from GitHUb.
