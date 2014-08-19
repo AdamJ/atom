@@ -1,0 +1,20 @@
+'exception-reporting':
+  'userId': 'b585c023-d131-7a02-227c-2bf2e657cc3b'
+'welcome':
+  'showOnStartup': false
+'metrics':
+  'userId': '37658c84aae56d1c2cbf9236bd8da72d8881b16f'
+'editor':
+  'fontSize': 12
+  'tabLength': 4
+'core':
+  'themes': [
+    'atom-dark-ui'
+    'seti-monokai'
+  ]
+'highlight-column':
+  'opacity': 0.15
+  'enableHighlight': false
+'project-manager':
+  'showPath': true
+'tree-view': {}

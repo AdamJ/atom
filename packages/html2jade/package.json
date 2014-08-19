@@ -1,0 +1,32 @@
+{
+  "name": "html2jade",
+  "main": "./lib/html2jade",
+  "version": "0.5.0",
+  "description": "Convert HTML selection to jade.",
+  "activationEvents": [
+    "html2jade:convert"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mirek/atom-html2jade"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.94.0"
+  },
+  "dependencies": {
+    "html2jade": "~0.7.6"
+  },
+  "readme": "# Summary\n\nConvert selected HTML code to jade template.\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/mirek/atom-html2jade/issues"
+  },
+  "homepage": "https://github.com/mirek/atom-html2jade",
+  "_id": "html2jade@0.5.0",
+  "dist": {
+    "shasum": "4a93cc49bd5211dc67c20480dd95eda993d52032"
+  },
+  "_resolved": "/var/folders/b9/j5h6xm011lx3k1w3zhnm0wbh0000gp/T/d-114713-12729-1h5t47l/package.tgz",
+  "_from": "/var/folders/b9/j5h6xm011lx3k1w3zhnm0wbh0000gp/T/d-114713-12729-1h5t47l/package.tgz"
+}

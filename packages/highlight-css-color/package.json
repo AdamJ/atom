@@ -1,0 +1,31 @@
+{
+  "name": "highlight-css-color",
+  "main": "./lib/highlight-css-color",
+  "version": "1.3.0",
+  "private": true,
+  "description": "Highlights CSS color values with their color",
+  "activationEvents": [
+    "highlight-css-color:toggle"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wonnage/highlight-css-color"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {},
+  "readme": "# highlight-css-color package\n\nHighlights CSS color values (#fff, rgba(25,25,25,0.25), etc.) with their actual\ncolor value.\n\n![screenshot](https://raw.github.com/wonnage/highlight-css-color/master/screenshot.png)\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/wonnage/highlight-css-color/issues"
+  },
+  "homepage": "https://github.com/wonnage/highlight-css-color",
+  "_id": "highlight-css-color@1.3.0",
+  "dist": {
+    "shasum": "383e28b5164bdf928748863505d702ee9e4f564d"
+  },
+  "_resolved": "/var/folders/b9/j5h6xm011lx3k1w3zhnm0wbh0000gp/T/d-114713-12473-lfv03z/package.tgz",
+  "_from": "/var/folders/b9/j5h6xm011lx3k1w3zhnm0wbh0000gp/T/d-114713-12473-lfv03z/package.tgz"
+}

@@ -1,0 +1,10 @@
+'emu':
+  'title': 'emu'
+  'paths': [
+    '/Users/ajolicoeur/work/extreme-makeover-ui-edition/src'
+  ]
+'HubUI':
+  'title': 'HubUI'
+  'paths': [
+    '/Users/ajolicoeur/work/ui'
+  ]

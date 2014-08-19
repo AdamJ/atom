@@ -1,4 +1,0 @@
-atom
-====
-
-Custom Atom configurations

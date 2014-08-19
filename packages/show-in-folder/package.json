@@ -1,0 +1,27 @@
+{
+  "name": "show-in-folder",
+  "main": "./lib/show-in-folder",
+  "version": "0.1.0",
+  "description": "Adds Show in Folder context entry on the sidebar",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Flynsarmy/atom-show-in-folder"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {},
+  "readme": "# Show in Folder\n\nAdds Show in Folder context entry on the sidebar\n\n![Context menu entry to open in Finder the folder your active file is in](https://raw.github.com/Flynsarmy/atom-show-in-folder/master/screenshot-1.png)\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/Flynsarmy/atom-show-in-folder/issues"
+  },
+  "homepage": "https://github.com/Flynsarmy/atom-show-in-folder",
+  "_id": "show-in-folder@0.1.0",
+  "dist": {
+    "shasum": "5ecc8dd8c49edf0eafe4c234804fae0ecd024ce0"
+  },
+  "_resolved": "/var/folders/b9/j5h6xm011lx3k1w3zhnm0wbh0000gp/T/d-114713-12511-gea6mr/package.tgz",
+  "_from": "/var/folders/b9/j5h6xm011lx3k1w3zhnm0wbh0000gp/T/d-114713-12511-gea6mr/package.tgz"
+}
