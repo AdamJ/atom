@@ -1,7 +1,7 @@
 Adam's ATOM Configuration
 ====
 
-This is my custom configuration for the ATOM editor from GitHUb.
+This is my custom configuration for the ATOM editor from GitHub.
 
 I have added a custom icon for LESS ( .less-icon ) using Devicons that appears in both the TreeView as well as file tabs.
 
