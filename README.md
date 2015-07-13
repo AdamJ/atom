@@ -1,4 +1,5 @@
 Adam's ATOM Configuration
+** Updated for Version 1.0!!
 ====
 
 This is my custom configuration for the ATOM editor from GitHub.

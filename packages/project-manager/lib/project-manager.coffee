@@ -1,40 +1,78 @@
+{CompositeDisposable} = require 'atom'
 fs = require 'fs'
+Settings = null
+ProjectsListView = null
+ProjectsAddView = null
 
 module.exports =
-  configDefaults:
-    showPath: false
-    closeCurrent: false
-    sortByTitle: false
-    environmentSpecificProjects: false
+  config:
+    showPath:
+      type: 'boolean'
+      default: true
 
-  projectManagerView: null
+    closeCurrent:
+      type: 'boolean'
+      default: false
+      description:
+        "Currently disabled since it's broken.
+        Waiting for a better way to implement it."
+
+    environmentSpecificProjects:
+      type: 'boolean'
+      default: false
+
+    sortBy:
+      type: 'string'
+      description: 'Default sorting is the order in which the projects are'
+      default: 'default'
+      enum: [
+        'default'
+        'title'
+        'group'
+      ]
+
   projectManagerAddView: null
-
   filepath: null
+  subscriptions: null
 
   activate: (state) ->
+    @subscriptions = new CompositeDisposable
+    @handleEvents()
+
     fs.exists @file(), (exists) =>
       unless exists
         fs.writeFile @file(), '{}', (error) ->
           if error
-            console.log "Error: Could not create #{@file()} - #{error}"
+            atom.notifications?.addError "Project Manager", options =
+              details: "Could not create #{@file()}"
       else
-        @loadSettings()
-
-    atom.workspaceView.command 'project-manager:save-project', =>
-      @createProjectManagerAddView(state).toggle(@)
-    atom.workspaceView.command 'project-manager:toggle', =>
-      @createProjectManagerView(state).toggle(@)
-    atom.workspaceView.command 'project-manager:edit-projects', =>
-      @editProjects()
-    atom.workspaceView.command 'project-manager:reload-project-settings', =>
-      @loadSettings()
+        @subscribeToProjectsFile()
+        @loadCurrentProject()
 
     atom.config.observe 'project-manager.environmentSpecificProjects',
-    (newValue, obj = {}) =>
-      previous = if obj.previous? then obj.previous else newValue
-      unless newValue is previous
-        @updateFile()
+      (newValue, obj = {}) =>
+        previous = if obj.previous? then obj.previous else newValue
+        unless newValue is previous
+          @updateFile()
+          @subscribeToProjectsFile()
+
+  handleEvents: (state) ->
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'project-manager:toggle': =>
+        ProjectsListView ?= require './project-manager-view'
+        projectsListView = new ProjectsListView()
+        projectsListView.toggle(@)
+
+      'project-manager:save-project': =>
+        ProjectsAddView ?= require './project-manager-add-view'
+        projectsAddView = new ProjectsAddView()
+        projectsAddView.toggle(@)
+
+      'project-manager:edit-projects': =>
+        atom.workspace.open @file()
+
+      'project-manager:reload-project-settings': =>
+        @loadCurrentProject()
 
   file: (update = false) ->
     @filepath = null if update
@@ -56,52 +94,52 @@ module.exports =
       unless exists
         fs.writeFile @file(), '{}', (error) ->
           if error
-            console.log "Error: Could not create #{@file()} - #{error}"
+            atom.notifications?.addError "Project Manager", options =
+              details: "Could not create #{@file()}"
 
-  loadSettings: ->
+  subscribeToProjectsFile: ->
+    @fileWatcher.close() if @fileWatcher?
+    @fileWatcher = fs.watch @file(), (event, filename) =>
+      @loadCurrentProject()
+
+  loadCurrentProject: (done) ->
     CSON = require 'season'
+    _ = require 'underscore-plus'
     CSON.readFile @file(), (error, data) =>
       unless error
-        for title, project of data
-          for path in project.paths
-            if path is atom.project.getPath()
-              if project.settings?
-                @enableSettings(project.settings)
-              break
+        project = @getCurrentProject(data)
+        if project
+          if project.template? and data[project.template]?
+            project = _.deepExtend(project, data[project.template])
+          Settings ?= require './settings'
+          Settings.enable(project.settings) if project.settings?
+      done?()
 
-  enableSettings: (settings) ->
-    for setting, value of settings
-      atom.workspace.eachEditor (editor) ->
-        editor[setting](value)
+  getCurrentProject: (projects) ->
+    for title, project of projects
+      continue if not project.paths?
+      for path in project.paths
+        if path in atom.project.getPaths()
+          return project
+    return false
 
   addProject: (project) ->
     CSON = require 'season'
     projects = CSON.readFileSync(@file()) || {}
     projects[project.title] = project
-    CSON.writeFileSync(@file(), projects)
+    successMessage = "#{project.title} has been added"
+    errorMessage = "#{project.title} could not be saved to #{@file()}"
 
-  openProject: ({title, paths}) ->
+    CSON.writeFile @file(), projects, (err) ->
+      unless err
+        atom.notifications?.addSuccess successMessage
+      else
+        atom.notifications?.addError errorMessage
+
+  openProject: (project) ->
     atom.open options =
-      pathsToOpen: paths
+      pathsToOpen: project.paths
+      devMode: project.devMode
 
-    if atom.config.get('project-manager.closeCurrent') or
-    not atom.project.getPath()
-      atom.close()
-
-  editProjects: ->
-    config =
-      title: 'Config'
-      paths: [@file()]
-    @openProject(config)
-
-  createProjectManagerView: (state) ->
-    unless @projectManagerView?
-      ProjectManagerView = require './project-manager-view'
-      @projectManagerView = new ProjectManagerView()
-    @projectManagerView
-
-  createProjectManagerAddView: (state) ->
-    unless @projectManagerAddView?
-      ProjectManagerAddView = require './project-manager-add-view'
-      @projectManagerAddView = new ProjectManagerAddView()
-    @projectManagerAddView
+  deactivate: ->
+    @subscriptions.dispose()
